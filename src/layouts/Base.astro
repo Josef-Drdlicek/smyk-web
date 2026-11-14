@@ -1,0 +1,32 @@
+---
+import "@fontsource-variable/mulish";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/600.css";
+import "@fontsource/poppins/700.css";
+import "../styles/global.css";
+import { seo } from "../data/site";
+---
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{seo.title}</title>
+  <meta name="description" content={seo.description} />
+  <meta name="theme-color" content={seo.themeColor} />
+  <meta property="og:title" content={seo.title} />
+  <meta property="og:description" content={seo.description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content={seo.locale} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <!-- Set before first paint so .reveal elements do not flash. -->
+  <script is:inline>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+  <slot />
+  <script>
+    import { initReveal } from "../scripts/reveal";
+    initReveal();
+  </script>
+</body>
+</html>

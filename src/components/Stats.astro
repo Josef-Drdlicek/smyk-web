@@ -1,0 +1,34 @@
+---
+import SectionHead from "./SectionHead.astro";
+import { sections, stats } from "../data/site";
+---
+<section class="sec group" id={sections.group.id}>
+  <div class="wrap">
+    <SectionHead section={sections.group} />
+    <div class="stats">
+      {stats.map((s) => (
+        <div class="stat reveal">
+          <b class="display tnum">{s.value}</b>
+          <h3>{s.title}</h3>
+          <p>{s.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .group { background: var(--accent); color: var(--on-accent); }
+  .group :global(.eyebrow), .group :global(.hl) { color: #bfe3d3; }
+  .group :global(.sec-lede) { color: rgba(255, 255, 255, .8); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid rgba(255,255,255,.2); }
+  .stat { padding: 32px 32px 0 0; }
+  .stat + .stat { padding-left: 32px; border-left: 1px solid rgba(255,255,255,.2); }
+  .stat b { display: block; font-size: clamp(48px, 6vw, 80px); line-height: 1; font-weight: 700; letter-spacing: -0.03em; }
+  .stat h3 { font-size: 18px; margin-top: 16px; }
+  .stat p { margin: 6px 0 0; color: rgba(255, 255, 255, .78); font-size: 15px; }
+  @media (max-width: 960px) {
+    .stats { grid-template-columns: 1fr; }
+    .stat, .stat + .stat { padding: 28px 0; border-left: 0; border-bottom: 1px solid rgba(255,255,255,.2); }
+  }
+</style>

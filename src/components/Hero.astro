@@ -1,0 +1,91 @@
+---
+import Icon from "./Icon.astro";
+import Avatar from "./Avatar.astro";
+import HouseIllustration from "./HouseIllustration.astro";
+import { brand, contact, fullName, paths, sections, ui } from "../data/site";
+import { smsHref, telHref } from "../lib/contact";
+
+// The first path is the server-rendered default; scripts/path-tabs.ts swaps fields marked data-field.
+const p = paths[0];
+---
+<section class="hero" id="hero" role="tabpanel" aria-labelledby={`tab-${p.id}`}>
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <div class="eyebrow">{brand.eyebrow}</div>
+      <h1 class="display hero-h" data-swap>
+        <span data-field="pre">{p.headline.pre}</span> <span class="hl" data-field="highlight">{p.headline.highlight}</span> <span data-field="post">{p.headline.post}</span>
+      </h1>
+      <p class="lede" data-field="lede" data-swap>{p.lede}</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href={telHref(contact.phone)}><Icon name="phone" />{ui.callCta}</a>
+        <a class="btn btn-secondary" href={`#${sections.process.id}`}>{ui.processCta}</a>
+      </div>
+      <ul class="checks" role="list">
+        {brand.highlights.map((h) => <li><Icon name="check" />{h}</li>)}
+      </ul>
+    </div>
+
+    <div class="hero-visual">
+      <figure class="photo">
+        {contact.photo
+          ? <img src={contact.photo} alt={fullName} width="640" height="760" fetchpriority="high" />
+          : <HouseIllustration />}
+        <figcaption class="caption">
+          <Avatar size="sm" />
+          <div><b>{fullName}</b><small>{contact.role}, {contact.company}</small></div>
+        </figcaption>
+      </figure>
+
+      <div class="msg-card">
+        <div class="msg-head"><b>{ui.messageHint}</b><small>{contact.replyNote}</small></div>
+        <p class="msg" data-field="sampleMessage" data-swap>{p.sampleMessage}</p>
+        <div class="msg-actions">
+          <a class="btn btn-primary btn-sm" data-sms href={smsHref(contact.phone, p.sampleMessage)}><Icon name="chat" />{ui.sendSms}</a>
+          <button class="btn btn-secondary btn-sm" type="button" data-copy-field="sampleMessage" data-copied-label={ui.copied}><Icon name="copy" /><span>{ui.copyMessage}</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { padding: 72px 0 104px; background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%); }
+  .hero-in { display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; align-items: center; }
+  .hero-h { font-size: clamp(40px, 5.6vw, 74px); margin-top: 22px; }
+  .lede { font-size: clamp(17px, 1.5vw, 19px); color: var(--muted); max-width: 44ch; margin: 24px 0 0; }
+  [data-swap] { transition: opacity .2s ease; }
+  [data-swap]:global(.out) { opacity: 0; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .checks { list-style: none; padding: 0; margin: 36px 0 0; display: grid; gap: 10px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .checks li { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+  .checks :global(svg) { width: 18px; height: 18px; color: var(--accent); flex: none; }
+
+  .hero-visual { position: relative; padding-bottom: 72px; }
+  .photo { position: relative; margin: 0; border-radius: 20px; overflow: hidden; aspect-ratio: 5 / 5.4; background: var(--accent-soft); box-shadow: var(--shadow); }
+  .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .caption { position: absolute; left: 16px; top: 16px; display: flex; align-items: center; gap: 10px; padding: 8px 14px 8px 8px; border-radius: 999px; background: rgba(255,255,255,.92); box-shadow: var(--shadow); }
+  .caption b { display: block; font-size: 14px; line-height: 1.2; }
+  .caption small { color: var(--muted); font-size: 12px; }
+
+  .msg-card { position: absolute; right: -16px; bottom: 0; width: min(380px, 92%); padding: 22px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); display: grid; gap: 14px; }
+  .msg-head b { display: block; font-size: 14px; }
+  .msg-head small { color: var(--muted); font-size: 13px; }
+  .msg { margin: 0; padding: 14px 16px; border-radius: 4px 14px 14px 14px; background: var(--surface-2); font-size: 15px; line-height: 1.55; }
+  .msg-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  @media (max-width: 960px) {
+    .hero-in { grid-template-columns: 1fr; gap: 48px; }
+    .msg-card { right: 12px; }
+  }
+  @media (max-width: 720px) {
+    .hero { padding: 40px 0 64px; }
+    .hero-visual { padding-bottom: 0; }
+    .photo { aspect-ratio: 4 / 3; }
+    .msg-card { position: relative; right: auto; width: auto; margin: -40px 12px 0; }
+  }
+</style>
+
+<script>
+  import { initClipboard } from "../scripts/clipboard";
+  initClipboard();
+</script>

@@ -1,0 +1,31 @@
+---
+import Icon from "./Icon.astro";
+import { contact, fullName, ui } from "../data/site";
+import { mailtoHref, telHref } from "../lib/contact";
+
+const webLabel = new URL(contact.web).hostname.replace(/^www\./, "");
+---
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>{fullName}, {contact.role.toLowerCase()} · {contact.company}, {contact.legal.address} · IČO {contact.legal.ico}</span>
+    <a href={contact.web} target="_blank" rel="noopener">{webLabel}</a>
+  </div>
+</footer>
+
+<div class="callbar">
+  <a class="btn btn-primary" href={telHref(contact.phone)}><Icon name="phone" />{ui.call}</a>
+  <a class="btn btn-secondary" href={mailtoHref(contact.email)}><Icon name="mail" />{ui.emailShort}</a>
+</div>
+
+<style>
+  .foot { background: var(--accent-hover); color: rgba(255, 255, 255, .75); font-size: 13px; }
+  .foot-in { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-block: 32px; }
+  .foot a { color: #fff; }
+  .callbar { display: none; }
+  @media (max-width: 720px) {
+    .callbar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 15;
+      background: rgba(255,255,255,.96); border-top: 1px solid var(--line);
+      padding: 10px max(12px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+    :global(body) { padding-bottom: 72px; }
+  }
+</style>

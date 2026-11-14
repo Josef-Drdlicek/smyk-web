@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jan Smejkal – realitní makléř Brno</title>
+<meta name="description" content="Jan Smejkal, realitní makléř OK REAL ESTATE v Brně. Prodej, koupě a pronájem nemovitostí včetně financování. Tel. +420 606 153 573.">
+<meta name="theme-color" content="#005240">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap">
+<style>
+/* Layout: split hero (identity left, contact card right), then services grid, process timeline, "one roof" band, contact block. */
+:root {
+  --green: #005240;        /* OK REAL ESTATE brand green */
+  --green-deep: #003a2d;
+  --mint: #d9ebe4;
+  --bg: #f6f8f7;
+  --surface: #ffffff;
+  --fg: #12201b;
+  --muted: #55665f;
+  --line: #d6e0dc;
+  --accent: #005240;
+  --on-accent: #ffffff;
+  --display: "Manrope", "Poppins", system-ui, sans-serif;
+  --body: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r: 14px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --mint: #12332a; --bg: #0c1512; --surface: #13201b; --fg: #e8f0ec;
+    --muted: #9db1a8; --line: #24372f; --accent: #5fd0a8; --on-accent: #062018;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --mint: #12332a; --bg: #0c1512; --surface: #13201b; --fg: #e8f0ec;
+  --muted: #9db1a8; --line: #24372f; --accent: #5fd0a8; --on-accent: #062018;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 400 16px/1.65 var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--display); line-height: 1.05; text-wrap: balance; margin: 0; letter-spacing: -0.025em; }
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* Header */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 20; background: var(--green); }
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--green); color: #fff; }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+.brand { display: flex; align-items: baseline; gap: 10px; text-decoration: none; min-width: 0; }
+.brand b { font-family: var(--display); font-size: 20px; font-weight: 800; letter-spacing: -0.01em; white-space: nowrap; }
+.brand span { font-size: 12px; opacity: .75; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.top-call { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; background: #fff; color: #003a2d; padding: 9px 16px; border-radius: 999px; white-space: nowrap; }
+.top-call:hover { background: #d9ebe4; }
+@media (max-width: 520px) { .brand span { display: none; } }
+
+/* Hero */
+.hero { background: var(--green); color: #fff; position: relative; overflow: hidden; }
+.hero::after { /* roof line motif: one roof for reality, finance, insurance */
+  content: ""; position: absolute; right: -6%; bottom: -1px; width: 62%; aspect-ratio: 2 / 1; max-width: 100%;
+  background: linear-gradient(to top right, transparent 49.6%, rgba(255,255,255,.06) 50%) left / 50% 100% no-repeat,
+              linear-gradient(to top left, transparent 49.6%, rgba(255,255,255,.06) 50%) right / 50% 100% no-repeat;
+  pointer-events: none;
+}
+.hero .wrap { display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: center; padding-block: 64px 80px; position: relative; z-index: 1; }
+.hero .eyebrow { color: #9fe0c7; }
+.hero h1 { font-size: clamp(48px, 8vw, 92px); font-weight: 800; margin-top: 14px; }
+.hero h1 em { font-style: normal; color: #9fe0c7; display: block; }
+.hero p.lede { font-size: 18px; max-width: 34ch; margin: 22px 0 0; color: rgba(255,255,255,.88); }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; padding: 0; list-style: none; }
+.hero-tags li { border: 1px solid rgba(255,255,255,.3); border-radius: 999px; padding: 5px 13px; font-size: 13px; }
+
+/* Contact card */
+.card {
+  background: var(--surface); color: var(--fg); border-radius: 22px; padding: 28px;
+  box-shadow: 0 30px 60px -30px rgba(0,0,0,.45);
+}
+.card-head { display: flex; align-items: center; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.avatar {
+  width: 72px; height: 72px; border-radius: 50%; flex: none; display: grid; place-items: center;
+  background: var(--mint); color: var(--accent); font-family: var(--display); font-weight: 800; font-size: 26px;
+  overflow: hidden;
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.card-head h2 { font-size: 24px; }
+.card-head p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+.lines { display: grid; gap: 4px; margin: 18px 0 20px; }
+.line {
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px;
+  padding: 10px 0; border-bottom: 1px dashed var(--line);
+}
+.line:last-child { border-bottom: 0; }
+.line small { display: block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.line a { text-decoration: none; font-weight: 600; font-size: 19px; overflow-wrap: anywhere; }
+.line a:hover { color: var(--accent); }
+.line > div { min-width: 0; }
+.copy {
+  border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 8px;
+  font: 500 12px var(--body); padding: 6px 10px; cursor: pointer;
+}
+.copy:hover { color: var(--accent); border-color: var(--accent); }
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn {
+  display: inline-flex; justify-content: center; align-items: center; gap: 8px; text-decoration: none; cursor: pointer;
+  font: 600 15px var(--body); padding: 13px 16px; border-radius: 12px; border: 1.5px solid var(--accent);
+}
+.btn.solid { background: var(--accent); color: var(--on-accent); }
+.btn.solid:hover { filter: brightness(1.1); }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.ghost:hover { background: var(--mint); }
+.btn.wide { grid-column: 1 / -1; }
+.btn svg { width: 18px; height: 18px; flex: none; }
+
+/* Sections */
+section.block .wrap { padding-block: 88px; }
+.sec-head { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: end; margin-bottom: 44px; }
+.sec-head h2 { font-size: clamp(34px, 5vw, 54px); font-weight: 700; margin-top: 10px; }
+.sec-head p { margin: 0; color: var(--muted); max-width: 52ch; }
+
+.services { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.svc { background: var(--surface); padding: 26px 22px 28px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.svc svg { width: 30px; height: 30px; color: var(--accent); }
+.svc h3 { font-size: 20px; font-weight: 700; }
+.svc p { margin: 0; color: var(--muted); font-size: 14px; }
+
+/* Process */
+.process { background: var(--surface); border-block: 1px solid var(--line); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; counter-reset: s; }
+.steps li { position: relative; padding-top: 52px; min-width: 0; }
+.steps li::before {
+  counter-increment: s; content: counter(s);
+  position: absolute; top: 0; left: 0; width: 38px; height: 38px; border-radius: 50%;
+  display: grid; place-items: center; font: 700 16px var(--display);
+  background: var(--accent); color: var(--on-accent);
+}
+.steps li::after { content: ""; position: absolute; top: 19px; left: 46px; right: -12px; height: 2px; background: var(--line); }
+.steps li:last-child::after { display: none; }
+.steps h3 { font-size: 18px; font-weight: 700; }
+.steps p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+
+/* Roof band */
+.roof { background: var(--mint); }
+.roof .wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
+.roof h2 { font-size: clamp(32px, 4.6vw, 50px); font-weight: 700; margin-top: 10px; }
+.roof p { color: var(--muted); max-width: 50ch; }
+.pillars { display: grid; gap: 12px; }
+.pillar { background: var(--surface); border-radius: var(--r); padding: 18px 20px; display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; }
+.pillar b { font-family: var(--display); font-size: 34px; font-weight: 800; color: var(--accent); line-height: 1; min-width: 2.2ch; }
+.pillar h3 { font-size: 18px; }
+.pillar p { margin: 2px 0 0; font-size: 14px; }
+
+/* Contact */
+.contact .wrap { display: grid; grid-template-columns: 1fr 1.1fr; gap: 48px; }
+.contact h2 { font-size: clamp(36px, 5vw, 58px); font-weight: 800; margin-top: 10px; }
+.big-links { display: grid; gap: 8px; margin-top: 28px; }
+.big-links a { font-family: var(--display); font-weight: 700; font-size: clamp(24px, 3.6vw, 36px); text-decoration: none; overflow-wrap: anywhere; }
+.big-links a:hover { color: var(--accent); }
+.office { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; }
+.office strong { color: var(--fg); }
+form { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 28px; display: grid; gap: 16px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; min-width: 0; }
+input, select, textarea {
+  font: 400 16px var(--body); color: var(--fg); background: var(--bg);
+  border: 1.5px solid var(--line); border-radius: 10px; padding: 12px 14px; width: 100%;
+}
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
+textarea { min-height: 110px; resize: vertical; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; border: 0; padding: 0; margin: 0; }
+.chips legend { font-size: 13px; font-weight: 600; margin-bottom: 8px; padding: 0; }
+.chips input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.chips label { font-weight: 500; font-size: 14px; border: 1.5px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; display: inline-block; }
+.chips input:checked + label { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.chips input:focus-visible + label { outline: 3px solid var(--accent); outline-offset: 2px; }
+.note { font-size: 12px; color: var(--muted); margin: 0; }
+.form-ok { font-size: 14px; color: var(--accent); font-weight: 600; margin: 0; }
+
+footer { background: var(--green-deep); color: rgba(255,255,255,.75); font-size: 13px; }
+footer .wrap { padding-block: 28px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+footer a { color: #fff; }
+
+/* Mobile sticky call bar */
+.callbar { display: none; }
+@media (max-width: 720px) {
+  .callbar {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 15;
+    background: var(--surface); border-top: 1px solid var(--line);
+    padding: 10px max(12px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+  }
+  body { padding-bottom: 72px; }
+  .top-call { display: none; }
+}
+
+@media (max-width: 900px) {
+  .hero .wrap, .roof .wrap, .contact .wrap, .sec-head { grid-template-columns: 1fr; }
+  .hero .wrap { padding-block: 44px 56px; gap: 36px; }
+  .services { grid-template-columns: repeat(2, 1fr); }
+  .steps { grid-template-columns: 1fr; gap: 0; }
+  .steps li { padding: 0 0 26px 56px; }
+  .steps li::after { top: 46px; bottom: 6px; left: 18px; right: auto; width: 2px; height: auto; }
+  section.block .wrap { padding-block: 64px; }
+}
+@media (max-width: 520px) {
+  .services { grid-template-columns: 1fr; }
+  .row2, .actions { grid-template-columns: 1fr; }
+  .card, form { padding: 22px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><b>Jan Smejkal</b><span>OK REAL ESTATE · Brno</span></a>
+    <a class="top-call tnum" href="tel:+420606153573">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+      606 153 573
+    </a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Realitní makléř · Brno a okolí</div>
+        <h1>Jan Smejkal <em>prodá, najde, poradí.</em></h1>
+        <p class="lede">Prodej, koupě i pronájem nemovitosti s jedním člověkem od první prohlídky po předání klíčů. Financování a pojištění vyřešíme na stejném místě.</p>
+        <ul class="hero-tags">
+          <li>Byty 1+kk až 4+1</li>
+          <li>Rodinné domy</li>
+          <li>Pozemky</li>
+          <li>Komerční prostory</li>
+        </ul>
+      </div>
+
+      <aside class="card" aria-label="Kontakt">
+        <div class="card-head">
+          <!-- Fotku vložte jako <img src="jan-smejkal.jpg" alt="Jan Smejkal"> místo iniciál -->
+          <div class="avatar" aria-hidden="true">JS</div>
+          <div>
+            <h2>Jan Smejkal</h2>
+            <p>Realitní makléř, OK REAL ESTATE s.r.o.</p>
+          </div>
+        </div>
+        <div class="lines">
+          <div class="line">
+            <div><small>Telefon</small><a class="tnum" href="tel:+420606153573">+420 606 153 573</a></div>
+            <button class="copy" type="button" data-copy="+420 606 153 573">Kopírovat</button>
+          </div>
+          <div class="line">
+            <div><small>E-mail</small><a href="mailto:jan.smejkal@okrealestate.cz">jan.smejkal@okrealestate.cz</a></div>
+            <button class="copy" type="button" data-copy="jan.smejkal@okrealestate.cz">Kopírovat</button>
+          </div>
+          <div class="line">
+            <div><small>Kancelář</small><a href="https://maps.google.com/?q=Jihlavsk%C3%A1+796%2F7a%2C+612+00+Brno" target="_blank" rel="noopener">Jihlavská 796/7a, Brno</a></div>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="btn solid" href="tel:+420606153573">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+            Zavolat
+          </a>
+          <a class="btn ghost" href="mailto:jan.smejkal@okrealestate.cz">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            Napsat e-mail
+          </a>
+          <button class="btn ghost wide" type="button" id="vcard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            Uložit do kontaktů
+          </button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="block" id="sluzby">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">S čím pomůžu</div>
+          <h2>Celý obchod na jedné adrese</h2>
+        </div>
+        <p>Nemovitost připravím, nafotím a nabídnu správným lidem. Kupujícím pomůžu najít bydlení a zařídit hypotéku. Smlouvy, úschovu i předání hlídám za vás.</p>
+      </div>
+      <div class="services">
+        <div class="svc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+          <h3>Prodej</h3>
+          <p>Odhad ceny podle skutečných prodejů v lokalitě, inzerce na hlavních portálech a vedení prohlídek.</p>
+        </div>
+        <div class="svc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg>
+          <h3>Koupě</h3>
+          <p>Hledám podle vašeho zadání, prověřím list vlastnictví a vyjednám podmínky.</p>
+        </div>
+        <div class="svc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg>
+          <h3>Pronájem</h3>
+          <p>Výběr spolehlivého nájemníka, nájemní smlouva a předávací protokol s fotodokumentací.</p>
+        </div>
+        <div class="svc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3 4 7.5v9L12 21l8-4.5v-9z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/></svg>
+          <h3>3D a video prohlídky</h3>
+          <p>Matterport 3D prohlídka a video, aby na prohlídku chodili jen opravdu vážní zájemci.</p>
+        </div>
+        <div class="svc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20h16M6 20V10M18 20V10"/><path d="M3 10h18"/><path d="M9 6h6l1 4H8z"/></svg>
+          <h3>Homestaging</h3>
+          <p>Úprava interiéru před focením, která zvedne zájem i nabídnutou cenu.</p>
+        </div>
+        <div class="svc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>
+          <h3>Hypotéka</h3>
+          <p>Financování přes finanční poradce OK HOLDING, srovnání nabídek bank.</p>
+        </div>
+        <div class="svc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8.5 7 10 4-1.5 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg>
+          <h3>Pojištění</h3>
+          <p>Pojištění nemovitosti a domácnosti sjednané rovnou k nákupu.</p>
+        </div>
+        <div class="svc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+          <h3>Developerské projekty</h3>
+          <p>Prodej bytů v nových projektech a poradenství při koupi novostavby.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block process" id="postup">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Jak prodej probíhá</div>
+          <h2>Pět kroků k podpisu</h2>
+        </div>
+        <p>Víte předem, co přijde a kdy. O každém kroku vás informuji, ať jste na prohlídce nebo ne.</p>
+      </div>
+      <ol class="steps">
+        <li><h3>Schůzka a ocenění</h3><p>Prohlédnu nemovitost a navrhnu cenu podle reálných prodejů v okolí.</p></li>
+        <li><h3>Příprava</h3><p>Fotky, 3D prohlídka, případně homestaging a kontrola dokumentů.</p></li>
+        <li><h3>Inzerce a prohlídky</h3><p>Nabídka na portálech a v síti OK HOLDING, prohlídky vedu sám.</p></li>
+        <li><h3>Rezervace a smlouvy</h3><p>Rezervační a kupní smlouva, advokátní úschova, pomoc kupujícímu s hypotékou.</p></li>
+        <li><h3>Předání</h3><p>Předávací protokol, stavy měřidel a přepis energií.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block roof">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">OK REAL ESTATE · OK HOLDING</div>
+        <h2>Reality, pojištění a finance pod jednou střechou</h2>
+        <p>Pracuji v realitní kanceláři OK REAL ESTATE, která je součástí skupiny OK HOLDING. Za mnou stojí tým kolegů z financí, pojištění a práva, takže nemusíte obíhat pět různých firem.</p>
+      </div>
+      <div class="pillars">
+        <div class="pillar"><b class="tnum">3 000+</b><div><h3>kolegů ve skupině</h3><p>Poradci po celé republice, kupující hledáme i mezi jejich klienty.</p></div></div>
+        <div class="pillar"><b class="tnum">8</b><div><h3>poboček</h3><p>Brno, Praha, Plzeň, Olomouc, Ostrava, České Budějovice a další.</p></div></div>
+        <div class="pillar"><b class="tnum">1</b><div><h3>kontaktní osoba</h3><p>Voláte pořád stejnému člověku, od ocenění po předání klíčů.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block contact" id="kontakt">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Kontakt</div>
+        <h2>Ozvěte se, první schůzka je nezávazná.</h2>
+        <div class="big-links">
+          <a class="tnum" href="tel:+420606153573">+420 606 153 573</a>
+          <a href="mailto:jan.smejkal@okrealestate.cz">jan.smejkal@okrealestate.cz</a>
+        </div>
+        <div class="office">
+          <strong>Pobočka Brno</strong><br>
+          Jihlavská 796/7a, 612 00 Brno<br>
+          <a href="https://maps.google.com/?q=Jihlavsk%C3%A1+796%2F7a%2C+612+00+Brno" target="_blank" rel="noopener">Zobrazit na mapě</a>
+        </div>
+      </div>
+
+      <form id="form" novalidate>
+        <fieldset class="chips">
+          <legend>Mám zájem o</legend>
+          <input type="radio" name="typ" id="t1" value="prodej" checked><label for="t1">Prodej</label>
+          <input type="radio" name="typ" id="t2" value="koupi"><label for="t2">Koupi</label>
+          <input type="radio" name="typ" id="t3" value="pronájem"><label for="t3">Pronájem</label>
+          <input type="radio" name="typ" id="t4" value="ocenění"><label for="t4">Ocenění</label>
+        </fieldset>
+        <div class="row2">
+          <label for="f-name">Jméno a příjmení<input id="f-name" name="jmeno" autocomplete="name" required></label>
+          <label for="f-tel">Telefon<input id="f-tel" name="telefon" type="tel" autocomplete="tel" required></label>
+        </div>
+        <label for="f-loc">Lokalita a typ nemovitosti<input id="f-loc" name="lokalita" placeholder="např. byt 3+kk, Brno-Žabovřesky"></label>
+        <label for="f-msg">Zpráva<textarea id="f-msg" name="zprava" placeholder="Kdy se vám hodí zavolat, co potřebujete vyřešit…"></textarea></label>
+        <button class="btn solid" type="submit">Připravit zprávu pro Jana</button>
+        <p class="note">Otevře se váš e-mail s vyplněnou zprávou, stačí ji odeslat. Údaje použiji jen k tomu, abych se vám ozval.</p>
+        <p class="form-ok" id="form-ok" hidden></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Jan Smejkal, realitní makléř · OK REAL ESTATE s.r.o., Mánesova 3014/16, 612 00 Brno · IČO 09752773</span>
+    <a href="https://www.okrealestate.cz/" target="_blank" rel="noopener">okrealestate.cz</a>
+  </div>
+</footer>
+
+<div class="callbar">
+  <a class="btn solid" href="tel:+420606153573">Zavolat</a>
+  <a class="btn ghost" href="mailto:jan.smejkal@okrealestate.cz">E-mail</a>
+</div>
+
+<script>
+const PHONE = "+420 606 153 573", EMAIL = "jan.smejkal@okrealestate.cz";
+
+document.querySelectorAll(".copy").forEach(b => b.addEventListener("click", async () => {
+  const txt = b.dataset.copy, old = b.textContent;
+  try { await navigator.clipboard.writeText(txt); b.textContent = "Zkopírováno"; }
+  catch (e) {
+    const r = document.createRange(); r.selectNodeContents(b.previousElementSibling.querySelector("a"));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Označeno";
+  }
+  setTimeout(() => b.textContent = old, 1800);
+}));
+
+document.getElementById("vcard").addEventListener("click", () => {
+  const v = ["BEGIN:VCARD","VERSION:3.0","N:Smejkal;Jan;;;","FN:Jan Smejkal","ORG:OK REAL ESTATE s.r.o.",
+    "TITLE:Realitní makléř","TEL;TYPE=CELL:" + PHONE.replace(/\s/g,""),"EMAIL;TYPE=WORK:" + EMAIL,
+    "ADR;TYPE=WORK:;;Jihlavská 796/7a;Brno;;612 00;Česká republika","URL:https://www.okrealestate.cz/","END:VCARD"].join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([v], { type: "text/vcard" }));
+  a.download = "jan-smejkal.vcf"; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+});
+
+document.getElementById("form").addEventListener("submit", e => {
+  e.preventDefault();
+  const f = e.target, ok = document.getElementById("form-ok");
+  const name = f.jmeno.value.trim(), tel = f.telefon.value.trim();
+  if (!name || !tel) { ok.hidden = false; ok.textContent = "Vyplňte prosím jméno a telefon, ať vám můžu zavolat."; (name ? f.telefon : f.jmeno).focus(); return; }
+  const typ = f.typ.value;
+  const body = `Dobrý den,\n\nmám zájem o ${typ}.\nLokalita / nemovitost: ${f.lokalita.value || "-"}\n\n${f.zprava.value}\n\n${name}\n${tel}`;
+  location.href = `mailto:${EMAIL}?subject=${encodeURIComponent("Poptávka z webu: " + typ)}&body=${encodeURIComponent(body)}`;
+  ok.hidden = false; ok.textContent = "Zpráva je připravená ve vašem e-mailu. Pokud se neotevřel, zavolejte na " + PHONE + ".";
+});
+</script>
+</body>
+</html>

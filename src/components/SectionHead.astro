@@ -1,0 +1,17 @@
+---
+import type { Section } from "../data/site";
+
+interface Props { section: Section }
+const { eyebrow, title, lede } = Astro.props.section;
+---
+<div class="sec-head reveal">
+  <div class="eyebrow">{eyebrow}</div>
+  <h2 class="display h2">{title.pre} <span class="hl">{title.highlight}</span>{title.post && ` ${title.post}`}</h2>
+  {lede && <p class="sec-lede">{lede}</p>}
+</div>
+
+<style>
+  .sec-head { display: grid; gap: 16px; margin-bottom: 56px; max-width: 720px; }
+  .h2 { font-size: clamp(32px, 4.4vw, 54px); }
+  .sec-lede { margin: 0; color: var(--muted); font-size: 17px; max-width: 58ch; }
+</style>

@@ -1,0 +1,57 @@
+---
+import Icon from "./Icon.astro";
+import Avatar from "./Avatar.astro";
+import { brand, contact, fullName, paths, sections, ui } from "../data/site";
+import { telHref } from "../lib/contact";
+
+const navItems = Object.values(sections);
+// Short local form for the header button (drops the country code).
+const localPhone = contact.phone.replace(/^\+\d{3}\s*/, "");
+---
+<header class="top">
+  <div class="wrap top-row">
+    <a class="brand" href="#top" aria-label={fullName}>
+      <Avatar />
+      <span class="brand-txt"><b>{fullName}</b><small>{brand.tagline}</small></span>
+    </a>
+    <nav class="nav" aria-label={ui.navLabel}>
+      {navItems.map((s) => <a href={`#${s.id}`}>{s.nav}</a>)}
+    </nav>
+    <a class="btn btn-primary btn-sm top-call tnum" href={telHref(contact.phone)}><Icon name="phone" />{localPhone}</a>
+  </div>
+  <div class="tabs-bar">
+    <div class="wrap">
+      <div class="tabs" role="tablist" aria-label={ui.tabsLabel}>
+        {paths.map((p, i) => (
+          <button class="tab" role="tab" type="button" id={`tab-${p.id}`} data-path={p.id}
+            aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1} aria-controls="hero">{p.tab}</button>
+        ))}
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .top { position: sticky; top: 0; z-index: 20; background: rgba(255, 255, 255, .94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top, 0px); }
+  .top-row { display: flex; align-items: center; gap: 24px; min-height: 68px; }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; min-width: 0; margin-right: auto; }
+  .brand-txt { display: grid; line-height: 1.2; min-width: 0; }
+  .brand-txt b { font: 600 17px var(--body); white-space: nowrap; }
+  .brand-txt small { font-size: 11px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+  .nav { display: flex; gap: 4px; }
+  .nav a { text-decoration: none; color: var(--muted); font-size: 15px; font-weight: 500; padding: 8px 12px; border-radius: 8px; }
+  .nav a:hover { color: var(--accent); }
+  .tabs-bar { background: var(--bg); border-top: 1px solid var(--line); }
+  .tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-block: 8px; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: 1px solid transparent; padding: 7px 16px; min-height: 40px; border-radius: 999px; font-size: 14px; font-weight: 500; color: var(--muted); cursor: pointer; white-space: nowrap; }
+  .tab:hover { color: var(--fg); background: var(--surface); }
+  .tab[aria-selected="true"] { color: var(--accent); background: var(--surface); border-color: var(--line-2); font-weight: 600; }
+  @media (max-width: 960px) { .nav { display: none; } }
+  @media (max-width: 720px) { .top-call { display: none; } .tab { padding: 7px 12px; font-size: 13px; } }
+</style>
+
+<script>
+  import { initPathTabs } from "../scripts/path-tabs";
+  initPathTabs();
+</script>

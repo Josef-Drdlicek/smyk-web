@@ -1,0 +1,67 @@
+---
+import Icon from "./Icon.astro";
+import SectionHead from "./SectionHead.astro";
+import { filters, sections, services, ui } from "../data/site";
+---
+<section class="sec" id={sections.services.id}>
+  <div class="wrap">
+    <SectionHead section={sections.services} />
+    <div class="catalog">
+      <div class="filters" role="group" aria-label={ui.filtersLabel}>
+        {filters.map((f, i) => (
+          <button class="filter" type="button" data-filter={f.id} aria-pressed={i === 0 ? "true" : "false"}>
+            <span class="fi"><Icon name={f.icon} /></span>{f.label}
+          </button>
+        ))}
+      </div>
+      <ul class="cards" role="list">
+        {services.map((s) => (
+          <li class="svc reveal" data-categories={s.categories.join(" ")}>
+            <div class="svc-vis"><Icon name={s.icon} /></div>
+            <div class="svc-body">
+              <h3>{s.title}</h3>
+              <p>{s.description}</p>
+              <div class="svc-tags">{s.tags.map((t) => <span class="pill">{t}</span>)}</div>
+              <div class="svc-actions">
+                <a class="btn btn-primary btn-sm" href={`#${sections.contact.id}`} data-form-type={s.formType}>{ui.inquire}</a>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .catalog { display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: start; }
+  .filters { position: sticky; top: 150px; display: grid; gap: 2px; }
+  .filter { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 8px 12px; border: 0; border-radius: 10px; background: none; color: var(--muted); font-size: 15px; text-align: left; cursor: pointer; }
+  .filter:hover { color: var(--fg); background: var(--surface); }
+  .filter[aria-pressed="true"] { color: var(--accent); background: var(--surface); font-weight: 600; box-shadow: inset 2px 0 0 var(--accent); }
+  .fi { display: grid; place-items: center; width: 26px; height: 26px; }
+  .fi :global(svg) { width: 18px; height: 18px; }
+  .cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .svc { display: flex; flex-direction: column; gap: 12px; padding: 28px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); transition: border-color .2s ease, box-shadow .2s ease; }
+  .svc:hover { border-color: var(--line-2); box-shadow: var(--shadow); }
+  .svc[hidden] { display: none; }
+  .svc-vis { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+  .svc-vis :global(svg) { width: 24px; height: 24px; }
+  .svc-body { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .svc h3 { font-size: 19px; }
+  .svc p { margin: 0; color: var(--muted); font-size: 15px; }
+  .svc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .svc-actions { margin-top: auto; padding-top: 10px; }
+  @media (max-width: 960px) {
+    .catalog { grid-template-columns: 1fr; gap: 24px; }
+    .filters { position: static; display: flex; overflow-x: auto; scrollbar-width: none; gap: 6px; margin: 0 -16px; padding: 0 16px; }
+    .filter { flex: none; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+    .filter[aria-pressed="true"] { box-shadow: none; border-color: var(--accent); }
+  }
+  @media (max-width: 720px) { .cards { grid-template-columns: 1fr; } .svc { padding: 22px; } }
+</style>
+
+<script>
+  import { initServiceFilter } from "../scripts/service-filter";
+  initServiceFilter();
+</script>

@@ -1,0 +1,14 @@
+---
+import { contact } from "../data/site";
+
+interface Props { size?: "sm" | "md" }
+const { size = "md" } = Astro.props;
+const initials = `${contact.firstName[0]}${contact.lastName[0]}`;
+---
+<span class:list={["avatar", size]} aria-hidden="true">{initials}</span>
+
+<style>
+  .avatar { display: grid; place-items: center; flex: none; background: var(--accent); color: var(--on-accent); font: 600 13px var(--body); letter-spacing: .02em; }
+  .md { width: 36px; height: 36px; border-radius: 8px; }
+  .sm { width: 36px; height: 36px; border-radius: 50%; }
+</style>
