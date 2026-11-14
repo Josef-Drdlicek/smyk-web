@@ -3,62 +3,60 @@ import Icon from "./Icon.astro";
 import SectionHead from "./SectionHead.astro";
 import { filters, sections, services, ui } from "../data/site";
 ---
-<section class="sec" id={sections.services.id}>
+<section class="sec sec-light" id={sections.services.id}>
   <div class="wrap">
     <SectionHead section={sections.services} />
-    <div class="catalog">
-      <div class="filters" role="group" aria-label={ui.filtersLabel}>
-        {filters.map((f, i) => (
-          <button class="filter" type="button" data-filter={f.id} aria-pressed={i === 0 ? "true" : "false"}>
-            <span class="fi"><Icon name={f.icon} /></span>{f.label}
-          </button>
-        ))}
-      </div>
-      <ul class="cards" role="list">
-        {services.map((s) => (
-          <li class="svc reveal" data-categories={s.categories.join(" ")}>
-            <div class="svc-vis"><Icon name={s.icon} /></div>
-            <div class="svc-body">
-              <h3>{s.title}</h3>
-              <p>{s.description}</p>
-              <div class="svc-tags">{s.tags.map((t) => <span class="pill">{t}</span>)}</div>
-              <div class="svc-actions">
-                <a class="btn btn-primary btn-sm" href={`#${sections.contact.id}`} data-form-type={s.formType}>{ui.inquire}</a>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+    <div class="filters" role="group" aria-label={ui.filtersLabel}>
+      {filters.map((f, i) => (
+        <button class="filter" type="button" data-filter={f.id} aria-pressed={i === 0 ? "true" : "false"}>{f.label}</button>
+      ))}
     </div>
+    <ul class="cards" role="list">
+      {services.map((s, i) => (
+        <li class="card reveal" data-categories={s.categories.join(" ")} style={`--delay:${(i % 4) * 80}ms`}>
+          <a class="card-link" href={`#${sections.contact.id}`} data-form-type={s.formType}>
+            <span class="card-icon"><Icon name={s.icon} /></span>
+            <h3>{s.title}</h3>
+            <p>{s.description}</p>
+            <span class="tags">{s.tags.join(" · ")}</span>
+            <span class="more">{ui.inquire}<Icon name="arrow" /></span>
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
 </section>
 
 <style>
-  .catalog { display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: start; }
-  .filters { position: sticky; top: 150px; display: grid; gap: 2px; }
-  .filter { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 8px 12px; border: 0; border-radius: 10px; background: none; color: var(--muted); font-size: 15px; text-align: left; cursor: pointer; }
-  .filter:hover { color: var(--fg); background: var(--surface); }
-  .filter[aria-pressed="true"] { color: var(--accent); background: var(--surface); font-weight: 600; box-shadow: inset 2px 0 0 var(--accent); }
-  .fi { display: grid; place-items: center; width: 26px; height: 26px; }
-  .fi :global(svg) { width: 18px; height: 18px; }
-  .cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .svc { display: flex; flex-direction: column; gap: 12px; padding: 28px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); transition: border-color .2s ease, box-shadow .2s ease; }
-  .svc:hover { border-color: var(--line-2); box-shadow: var(--shadow); }
-  .svc[hidden] { display: none; }
-  .svc-vis { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
-  .svc-vis :global(svg) { width: 24px; height: 24px; }
-  .svc-body { display: flex; flex-direction: column; gap: 10px; flex: 1; }
-  .svc h3 { font-size: 19px; }
-  .svc p { margin: 0; color: var(--muted); font-size: 15px; }
-  .svc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .svc-actions { margin-top: auto; padding-top: 10px; }
-  @media (max-width: 960px) {
-    .catalog { grid-template-columns: 1fr; gap: 24px; }
-    .filters { position: static; display: flex; overflow-x: auto; scrollbar-width: none; gap: 6px; margin: 0 -16px; padding: 0 16px; }
-    .filter { flex: none; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
-    .filter[aria-pressed="true"] { box-shadow: none; border-color: var(--accent); }
+  .filters { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: -24px 0 40px; }
+  .filter { min-height: 44px; padding: 8px 20px; border-radius: 999px; border: 1.5px solid var(--line-2); background: transparent;
+    font-size: 13px; font-weight: 700; cursor: pointer; transition: background .2s ease, color .2s ease, border-color .2s ease; }
+  .filter:hover { border-color: var(--fg); }
+  .filter[aria-pressed="true"] { background: var(--fg); border-color: var(--fg); color: #fff; }
+
+  .cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .card { background: var(--surface); transition: transform .25s ease, box-shadow .25s ease; }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .card[hidden] { display: none; }
+  .card-link { display: flex; flex-direction: column; align-items: center; height: 100%; padding: 36px 22px 30px; text-align: center; text-decoration: none; }
+  .card-icon { display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: 22px; border-radius: 50%; background: var(--light); color: var(--fg); }
+  .card-icon :global(svg) { width: 28px; height: 28px; }
+  .card h3 { font-size: 21px; margin-bottom: 12px; }
+  .card p { margin: 0 0 16px; font-size: 15px; line-height: 1.5; }
+  .tags { margin-bottom: 22px; color: var(--muted); font-size: 13px; }
+  .more { margin-top: auto; display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; transition: color .2s ease; }
+  .more :global(svg) { width: 15px; height: 15px; transition: transform .2s ease; }
+  .card:hover .more { color: var(--accent); }
+  .card:hover .more :global(svg) { transform: translateX(3px); }
+
+  @media (max-width: 1100px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 720px) {
+    .filters { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; margin: -24px -16px 28px; padding: 0 16px; }
+    .filters::-webkit-scrollbar { display: none; }
+    .filter { flex: none; }
+    .cards { grid-template-columns: 1fr; gap: 14px; }
+    .card-link { padding: 28px 20px 24px; }
   }
-  @media (max-width: 720px) { .cards { grid-template-columns: 1fr; } .svc { padding: 22px; } }
 </style>
 
 <script>

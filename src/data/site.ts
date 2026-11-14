@@ -15,7 +15,7 @@ export interface Contact {
   office: { label: string; street: string; zip: string; city: string; country: string };
   legal: { address: string; ico: string };
   replyNote: string;
-  /** Path under public/, e.g. "/jan-smejkal.jpg". Until set, the hero shows an illustration. */
+  /** Portrait under public/, e.g. "/jan-smejkal.jpg". Shown in the "O mně" section once set. */
   photo?: string;
 }
 
@@ -43,7 +43,7 @@ export interface Service {
 export interface Filter { id: ServiceCategory | "all"; label: string; icon: IconName }
 export interface Step { title: string; description: string }
 export interface Stat { value: string; title: string; description: string }
-export interface Section { id: string; nav: string; eyebrow: string; title: { pre: string; highlight: string; post?: string }; lede?: string }
+export interface Section { id: string; nav: string; eyebrow: string; title?: { pre: string; highlight: string; post?: string }; lede?: string; note?: string }
 
 export const contact: Contact = {
   firstName: "Jan",
@@ -65,12 +65,17 @@ export const brand = {
   tagline: "OK REAL ESTATE · Brno",
   eyebrow: "Realitní makléř · Brno a okolí",
   highlights: ["Matterport 3D prohlídka", "Advokátní úschova", "Hypotéka přes OK HOLDING"],
+  /**
+   * Full-screen hero background under public/, ideally a wide landscape shot (min. 2400 px wide, WebP).
+   * Until set, the hero falls back to a dark gradient with a line drawing.
+   */
+  heroImage: undefined as string | undefined,
 };
 
 export const seo = {
   title: `${fullName} – realitní makléř Brno`,
   description: `${fullName}, realitní makléř OK REAL ESTATE v Brně. Prodej, koupě a pronájem nemovitostí včetně financování. Tel. ${contact.phone}.`,
-  themeColor: "#f7f4ee",
+  themeColor: "#050505",
   locale: "cs_CZ",
 };
 
@@ -103,6 +108,11 @@ export const paths: Path[] = [
 ];
 
 export const sections = {
+  about: {
+    id: "o-mne", nav: "O mně", eyebrow: "O mně",
+    lede: "Jsem realitní makléř OK REAL ESTATE v Brně. Prodej, koupi i pronájem vedu od první schůzky po předání klíčů, prohlídky dělám sám a voláte pořád stejnému člověku.",
+    note: "Za mnou stojí skupina OK HOLDING: finanční poradci, pojištění i právní servis. Hypotéku, úschovu a smlouvy tak vyřešíme na jednom místě.",
+  },
   services: { id: "sluzby", nav: "Služby", eyebrow: "S čím pomůžu", title: { pre: "Celý obchod", highlight: "na jedné adrese" } },
   process: {
     id: "postup", nav: "Postup", eyebrow: "Jak prodej probíhá", title: { pre: "Pět kroků", highlight: "k podpisu" },
@@ -180,6 +190,8 @@ export const ui = {
   inquire: "Poptat",
   saveContact: "Uložit do kontaktů",
   showOnMap: "Zobrazit na mapě",
+  mapTitle: "Mapa pobočky",
+  menu: "Menu",
   tabsLabel: "Co potřebujete",
   filtersLabel: "Filtr služeb",
   navLabel: "Hlavní",

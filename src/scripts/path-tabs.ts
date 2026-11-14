@@ -9,7 +9,7 @@ type Field = "pre" | "highlight" | "post" | "lede" | "sampleMessage";
 const fieldValue = (p: Path, f: Field): string =>
   f === "lede" || f === "sampleMessage" ? p[f] : p.headline[f];
 
-/** Tabs that swap hero copy per visitor intent (sell / buy / rent / valuation). */
+/** Tabs that swap hero copy and the contact sample message per visitor intent (sell / buy / rent / valuation). */
 export function initPathTabs() {
   const hero = document.getElementById("hero");
   const tabs = [...document.querySelectorAll<HTMLButtonElement>("[role=tab][data-path]")];
@@ -18,13 +18,13 @@ export function initPathTabs() {
   let currentId = paths[0].id;
 
   const render = (p: Path) => {
-    const swaps = hero.querySelectorAll("[data-swap]");
+    const swaps = document.querySelectorAll("[data-swap]");
     swaps.forEach((el) => el.classList.add("out"));
     window.setTimeout(() => {
-      hero.querySelectorAll<HTMLElement>("[data-field]").forEach((el) => {
+      document.querySelectorAll<HTMLElement>("[data-field]").forEach((el) => {
         el.textContent = fieldValue(p, el.dataset.field as Field);
       });
-      hero.querySelectorAll<HTMLAnchorElement>("[data-sms]").forEach((a) => (a.href = smsHref(contact.phone, p.sampleMessage)));
+      document.querySelectorAll<HTMLAnchorElement>("[data-sms]").forEach((a) => (a.href = smsHref(contact.phone, p.sampleMessage)));
       swaps.forEach((el) => el.classList.remove("out"));
     }, SWAP_MS);
   };

@@ -21,6 +21,8 @@ export const officeAddress = (c: Contact) => `${c.office.street}, ${c.office.zip
 
 export const mapHref = (c: Contact) => `https://maps.google.com/?q=${encodeURIComponent(officeAddress(c))}`;
 
+export const mapEmbedHref = (c: Contact) => `https://www.google.com/maps?q=${encodeURIComponent(officeAddress(c))}&output=embed`;
+
 export const buildVCard = (c: Contact) =>
   [
     "BEGIN:VCARD",

@@ -1,38 +1,35 @@
-/* Calm, trustworthy real-estate look: warm ivory canvas, OK REAL ESTATE green as the one accent,
-   Poppins headlines + Mulish body (same pairing as zapniweb.cz), generous whitespace, restrained motion. */
+/* Modern monochrome look modelled on naturanest.cz: full-bleed photo hero, black and white with a warm
+   light grey, uppercase extra-bold headings, pill buttons, square cards. OK REAL ESTATE green is the one accent. */
 :root {
-  --bg: #f7f4ee;
-  --bg-2: #efeae0;
+  --bg: #ffffff;
+  --light: #f2f3ed;           /* warm light grey for alternating sections */
+  --dark: #050505;
   --surface: #ffffff;
-  --surface-2: #f3efe7;
-  --line: rgba(22, 32, 27, 0.10);
-  --line-2: rgba(22, 32, 27, 0.18);
-  --fg: #16201b;
-  --muted: #5a655f;
+  --line: rgba(17, 17, 17, 0.10);
+  --line-2: rgba(17, 17, 17, 0.22);
+  --fg: #111111;
+  --muted: #5f5f5f;           /* 6.4:1 on white, readable for small text */
   --accent: #005240;          /* OK REAL ESTATE brand green */
   --accent-hover: #003a2d;
-  --accent-soft: #e3eee8;
   --on-accent: #ffffff;
-  --gold: #b08a4a;            /* small warm detail, used sparingly */
-  --display: "Poppins", system-ui, sans-serif;
-  --body: "Mulish Variable", "Mulish", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --r: 16px;
-  --shadow: 0 1px 2px rgba(22, 32, 27, .04), 0 12px 32px -12px rgba(22, 32, 27, .14);
+  --font: "Nunito Sans Variable", "Nunito Sans", Arial, Helvetica, sans-serif;
+  --header-h: 86px;
+  --shadow: 0 18px 40px -18px rgba(0, 0, 0, .22);
   color-scheme: light;
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 120px; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
 body {
   margin: 0; background: var(--bg); color: var(--fg);
-  font: 400 16px/1.65 var(--body);
+  font: 400 16px/1.6 var(--font);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
 button { font: inherit; color: inherit; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 ::selection { background: var(--accent); color: var(--on-accent); }
 
 .wrap {
@@ -41,41 +38,35 @@ button { font: inherit; color: inherit; }
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
 h1, h2, h3 { margin: 0; line-height: 1.1; text-wrap: balance; }
-h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.02em; }
-.display { font-family: var(--display); font-weight: 700; letter-spacing: -0.02em; }
+h3 { font-weight: 700; }
+.upper { text-transform: uppercase; font-weight: 800; letter-spacing: .005em; }
 .hl { color: var(--accent); }
 .tnum { font-variant-numeric: tabular-nums; }
-.eyebrow {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
-}
-.eyebrow::before { content: ""; width: 20px; height: 1px; background: currentColor; }
+.kicker { font-size: 12px; line-height: 1; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
 
-/* Buttons */
+/* Buttons: uppercase pills */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 48px; padding: 12px 22px; border-radius: 10px;
-  font: 500 15px var(--display); text-decoration: none; cursor: pointer; white-space: nowrap;
-  border: 1px solid transparent; transition: background .15s ease, border-color .15s ease, color .15s ease;
+  min-height: 48px; padding: 14px 28px; border-radius: 999px;
+  font: 800 13px/1 var(--font); letter-spacing: .02em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer; white-space: nowrap;
+  border: 1.5px solid transparent; transition: background .2s ease, border-color .2s ease, color .2s ease;
 }
-.btn svg { width: 18px; height: 18px; flex: none; }
+.btn svg { width: 17px; height: 17px; flex: none; }
 .btn-primary { background: var(--accent); color: var(--on-accent); }
 .btn-primary:hover { background: var(--accent-hover); }
-.btn-secondary { background: var(--surface); border-color: var(--line-2); color: var(--fg); }
-.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-.btn-sm { min-height: 40px; padding: 8px 14px; font-size: 14px; }
+.btn-secondary { background: transparent; border-color: var(--fg); color: var(--fg); }
+.btn-secondary:hover { background: var(--fg); color: #fff; }
+.btn-ghost { background: transparent; border-color: rgba(255,255,255,.75); color: #fff; }
+.btn-ghost:hover { background: #fff; color: var(--fg); }
+.btn-sm { min-height: 44px; padding: 10px 18px; font-size: 12px; }
 
-.pill {
-  display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px;
-  background: var(--surface-2); font-size: 12px; color: var(--muted); white-space: nowrap;
-}
-
-.sec { padding: 112px 0; }
-.sec + .sec { border-top: 1px solid var(--line); }
-@media (max-width: 960px) { .sec { padding: 80px 0; } }
+.sec { padding: 104px 0; }
+.sec-light { background: var(--light); }
+@media (max-width: 960px) { .sec { padding: 72px 0; } }
 
 /* Scroll reveal (progressive: content stays visible without JS) */
-.js .reveal { opacity: 0; transform: translateY(10px); transition: opacity .6s ease, transform .6s ease; }
+.js .reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; transition-delay: var(--delay, 0ms); }
 .js .reveal.in { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {

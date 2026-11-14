@@ -1,91 +1,81 @@
 ---
 import Icon from "./Icon.astro";
-import Avatar from "./Avatar.astro";
 import HouseIllustration from "./HouseIllustration.astro";
-import { brand, contact, fullName, paths, sections, ui } from "../data/site";
-import { smsHref, telHref } from "../lib/contact";
+import { brand, contact, paths, sections, ui } from "../data/site";
+import { telHref } from "../lib/contact";
 
 // The first path is the server-rendered default; scripts/path-tabs.ts swaps fields marked data-field.
 const p = paths[0];
+const bg = brand.heroImage ? `background-image:url(${brand.heroImage})` : undefined;
 ---
-<section class="hero" id="hero" role="tabpanel" aria-labelledby={`tab-${p.id}`}>
-  <div class="wrap hero-in">
-    <div class="hero-copy">
-      <div class="eyebrow">{brand.eyebrow}</div>
-      <h1 class="display hero-h" data-swap>
-        <span data-field="pre">{p.headline.pre}</span> <span class="hl" data-field="highlight">{p.headline.highlight}</span> <span data-field="post">{p.headline.post}</span>
-      </h1>
-      <p class="lede" data-field="lede" data-swap>{p.lede}</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href={telHref(contact.phone)}><Icon name="phone" />{ui.callCta}</a>
-        <a class="btn btn-secondary" href={`#${sections.process.id}`}>{ui.processCta}</a>
-      </div>
-      <ul class="checks" role="list">
-        {brand.highlights.map((h) => <li><Icon name="check" />{h}</li>)}
-      </ul>
+<section class:list={["hero", { "no-photo": !brand.heroImage }]} id="hero" style={bg}
+  role="tabpanel" aria-labelledby={`tab-${p.id}`}>
+  {!brand.heroImage && <HouseIllustration />}
+  <div class="hero-in">
+    <div class="kicker">{brand.eyebrow}</div>
+    <div class="tabs" role="tablist" aria-label={ui.tabsLabel}>
+      {paths.map((x, i) => (
+        <button class="tab" role="tab" type="button" id={`tab-${x.id}`} data-path={x.id}
+          aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1} aria-controls="hero">{x.tab}</button>
+      ))}
     </div>
-
-    <div class="hero-visual">
-      <figure class="photo">
-        {contact.photo
-          ? <img src={contact.photo} alt={fullName} width="640" height="760" fetchpriority="high" />
-          : <HouseIllustration />}
-        <figcaption class="caption">
-          <Avatar size="sm" />
-          <div><b>{fullName}</b><small>{contact.role}, {contact.company}</small></div>
-        </figcaption>
-      </figure>
-
-      <div class="msg-card">
-        <div class="msg-head"><b>{ui.messageHint}</b><small>{contact.replyNote}</small></div>
-        <p class="msg" data-field="sampleMessage" data-swap>{p.sampleMessage}</p>
-        <div class="msg-actions">
-          <a class="btn btn-primary btn-sm" data-sms href={smsHref(contact.phone, p.sampleMessage)}><Icon name="chat" />{ui.sendSms}</a>
-          <button class="btn btn-secondary btn-sm" type="button" data-copy-field="sampleMessage" data-copied-label={ui.copied}><Icon name="copy" /><span>{ui.copyMessage}</span></button>
-        </div>
-      </div>
+    <h1 class="upper hero-h" data-swap>
+      <span data-field="pre">{p.headline.pre}</span> <span data-field="highlight">{p.headline.highlight}</span> <span data-field="post">{p.headline.post}</span>
+    </h1>
+    <p class="lede" data-field="lede" data-swap>{p.lede}</p>
+    <div class="cta">
+      <a class="btn btn-primary" href={telHref(contact.phone)}><Icon name="phone" />{ui.callCta}</a>
+      <a class="btn btn-ghost" href={`#${sections.process.id}`}>{ui.processCta}</a>
     </div>
   </div>
+  <ul class="checks" role="list">
+    {brand.highlights.map((h) => <li><Icon name="check" />{h}</li>)}
+  </ul>
 </section>
 
 <style>
-  .hero { padding: 72px 0 104px; background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%); }
-  .hero-in { display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; align-items: center; }
-  .hero-h { font-size: clamp(40px, 5.6vw, 74px); margin-top: 22px; }
-  .lede { font-size: clamp(17px, 1.5vw, 19px); color: var(--muted); max-width: 44ch; margin: 24px 0 0; }
+  .hero { position: relative; isolation: isolate; min-height: max(640px, 100svh); display: flex; flex-direction: column; justify-content: center;
+    padding: calc(var(--header-h) + 40px) 0 120px; color: #fff; background: #1b1d1b center / cover no-repeat; }
+  /* Same layered shade as the reference: dark band under the header + left-side fade for legible copy. */
+  .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      linear-gradient(to bottom, rgba(0,0,0,.65) 0, rgba(0,0,0,.4) 90px, rgba(0,0,0,.1) 200px, rgba(0,0,0,0) 300px),
+      linear-gradient(to right, rgba(0,0,0,.55) 0%, rgba(0,0,0,.3) 40%, rgba(0,0,0,.08) 70%, rgba(0,0,0,0) 90%); }
+  .no-photo { background: radial-gradient(120% 90% at 80% 30%, #2f3a35 0%, #151816 55%, #0b0c0b 100%); }
+  .no-photo :global(.house) { position: absolute; z-index: -2; right: 4%; bottom: 0; top: auto; left: auto; width: min(560px, 48%); height: auto; inset: auto 4% 0 auto; color: rgba(255, 255, 255, .14); }
+
+  .hero-in { width: min(880px, calc(100% - 32px)); margin-left: clamp(16px, 6vw, 80px); }
+  .kicker { opacity: .85; }
+  .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 22px 0 28px; }
+  .tab { min-height: 40px; padding: 8px 16px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,.45); background: rgba(0,0,0,.18);
+    color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    transition: background .2s ease, color .2s ease, border-color .2s ease; }
+  .tab:hover { border-color: #fff; }
+  .tab[aria-selected="true"] { background: #fff; color: var(--fg); border-color: #fff; }
+
+  .hero-h { font-size: clamp(38px, 4.6vw, 72px); line-height: 1.06; text-shadow: 0 4px 18px rgba(0,0,0,.4); }
+  .lede { margin: 24px 0 0; max-width: 46ch; font-size: clamp(17px, 1.4vw, 21px); line-height: 1.45; font-weight: 500; text-shadow: 0 2px 12px rgba(0,0,0,.45); }
   [data-swap] { transition: opacity .2s ease; }
   [data-swap]:global(.out) { opacity: 0; }
-  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
-  .checks { list-style: none; padding: 0; margin: 36px 0 0; display: grid; gap: 10px; padding-top: 28px; border-top: 1px solid var(--line); }
-  .checks li { display: flex; align-items: center; gap: 10px; font-size: 15px; }
-  .checks :global(svg) { width: 18px; height: 18px; color: var(--accent); flex: none; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
 
-  .hero-visual { position: relative; padding-bottom: 72px; }
-  .photo { position: relative; margin: 0; border-radius: 20px; overflow: hidden; aspect-ratio: 5 / 5.4; background: var(--accent-soft); box-shadow: var(--shadow); }
-  .photo img { width: 100%; height: 100%; object-fit: cover; }
-  .caption { position: absolute; left: 16px; top: 16px; display: flex; align-items: center; gap: 10px; padding: 8px 14px 8px 8px; border-radius: 999px; background: rgba(255,255,255,.92); box-shadow: var(--shadow); }
-  .caption b { display: block; font-size: 14px; line-height: 1.2; }
-  .caption small { color: var(--muted); font-size: 12px; }
+  .checks { position: absolute; left: clamp(16px, 6vw, 80px); right: 16px; bottom: 32px; list-style: none; margin: 0; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: 14px; font-weight: 600; }
+  .checks li { display: flex; align-items: center; gap: 8px; }
+  .checks :global(svg) { width: 16px; height: 16px; flex: none; }
 
-  .msg-card { position: absolute; right: -16px; bottom: 0; width: min(380px, 92%); padding: 22px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); display: grid; gap: 14px; }
-  .msg-head b { display: block; font-size: 14px; }
-  .msg-head small { color: var(--muted); font-size: 13px; }
-  .msg { margin: 0; padding: 14px 16px; border-radius: 4px 14px 14px 14px; background: var(--surface-2); font-size: 15px; line-height: 1.55; }
-  .msg-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-
-  @media (max-width: 960px) {
-    .hero-in { grid-template-columns: 1fr; gap: 48px; }
-    .msg-card { right: 12px; }
-  }
   @media (max-width: 720px) {
-    .hero { padding: 40px 0 64px; }
-    .hero-visual { padding-bottom: 0; }
-    .photo { aspect-ratio: 4 / 3; }
-    .msg-card { position: relative; right: auto; width: auto; margin: -40px 12px 0; }
+    .hero { min-height: 100svh; padding: calc(72px + 32px) 0 32px; justify-content: flex-end; }
+    .hero::before { background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.35) 55%, rgba(0,0,0,.55) 100%); }
+    .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-right: -16px; padding-right: 16px; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .cta .btn { flex: 1 1 auto; }
+    .checks { position: static; flex-direction: column; gap: 6px; margin: 28px 0 0 16px; font-size: 13px; }
+    .no-photo :global(.house) { width: 80%; top: 14%; bottom: auto; }
   }
 </style>
 
 <script>
-  import { initClipboard } from "../scripts/clipboard";
-  initClipboard();
+  import { initPathTabs } from "../scripts/path-tabs";
+  initPathTabs();
 </script>

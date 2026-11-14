@@ -1,57 +1,73 @@
 ---
 import Icon from "./Icon.astro";
-import Avatar from "./Avatar.astro";
-import { brand, contact, fullName, paths, sections, ui } from "../data/site";
+import { contact, fullName, sections, ui } from "../data/site";
 import { telHref } from "../lib/contact";
 
 const navItems = Object.values(sections);
-// Short local form for the header button (drops the country code).
-const localPhone = contact.phone.replace(/^\+\d{3}\s*/, "");
 ---
-<header class="top">
-  <div class="wrap top-row">
-    <a class="brand" href="#top" aria-label={fullName}>
-      <Avatar />
-      <span class="brand-txt"><b>{fullName}</b><small>{brand.tagline}</small></span>
-    </a>
-    <nav class="nav" aria-label={ui.navLabel}>
+<header class="top" data-header>
+  <div class="top-row">
+    <nav class="nav" id="main-nav" aria-label={ui.navLabel} data-nav>
       {navItems.map((s) => <a href={`#${s.id}`}>{s.nav}</a>)}
     </nav>
-    <a class="btn btn-primary btn-sm top-call tnum" href={telHref(contact.phone)}><Icon name="phone" />{localPhone}</a>
-  </div>
-  <div class="tabs-bar">
-    <div class="wrap">
-      <div class="tabs" role="tablist" aria-label={ui.tabsLabel}>
-        {paths.map((p, i) => (
-          <button class="tab" role="tab" type="button" id={`tab-${p.id}`} data-path={p.id}
-            aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1} aria-controls="hero">{p.tab}</button>
-        ))}
-      </div>
+    <a class="brand" href="#top" aria-label={fullName}>
+      <b>{fullName}</b>
+      <small>{contact.role}</small>
+    </a>
+    <div class="right">
+      <a class="phone tnum" href={telHref(contact.phone)}><Icon name="phone" /><span>{contact.phone}</span></a>
+      <button class="menu" type="button" aria-expanded="false" aria-controls="main-nav" aria-label={ui.menu} data-menu>
+        <span></span><span></span>
+      </button>
     </div>
   </div>
 </header>
 
 <style>
-  .top { position: sticky; top: 0; z-index: 20; background: rgba(255, 255, 255, .94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top, 0px); }
-  .top-row { display: flex; align-items: center; gap: 24px; min-height: 68px; }
-  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; min-width: 0; margin-right: auto; }
-  .brand-txt { display: grid; line-height: 1.2; min-width: 0; }
-  .brand-txt b { font: 600 17px var(--body); white-space: nowrap; }
-  .brand-txt small { font-size: 11px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
-  .nav { display: flex; gap: 4px; }
-  .nav a { text-decoration: none; color: var(--muted); font-size: 15px; font-weight: 500; padding: 8px 12px; border-radius: 8px; }
-  .nav a:hover { color: var(--accent); }
-  .tabs-bar { background: var(--bg); border-top: 1px solid var(--line); }
-  .tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-block: 8px; }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab { background: none; border: 1px solid transparent; padding: 7px 16px; min-height: 40px; border-radius: 999px; font-size: 14px; font-weight: 500; color: var(--muted); cursor: pointer; white-space: nowrap; }
-  .tab:hover { color: var(--fg); background: var(--surface); }
-  .tab[aria-selected="true"] { color: var(--accent); background: var(--surface); border-color: var(--line-2); font-weight: 600; }
-  @media (max-width: 960px) { .nav { display: none; } }
-  @media (max-width: 720px) { .top-call { display: none; } .tab { padding: 7px 12px; font-size: 13px; } }
+  .top { position: fixed; inset: 0 0 auto; z-index: 20; height: var(--header-h); color: #fff;
+    padding-top: env(safe-area-inset-top, 0px); transition: height .35s ease, background .35s ease; }
+  .top:global(.scrolled), .top:global(.open) { height: 72px; background: rgba(0, 0, 0, .86); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .top-row { height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 24px;
+    padding: 0 max(40px, env(safe-area-inset-right, 0px)) 0 max(40px, env(safe-area-inset-left, 0px)); }
+  .top a { text-decoration: none; text-shadow: 0 1px 3px rgba(0, 0, 0, .4); }
+
+  .nav { display: flex; gap: 22px; }
+  .nav a { font-size: 14px; font-weight: 700; white-space: nowrap; }
+  .nav a:hover, .phone:hover { color: rgba(255, 255, 255, .72); }
+
+  .brand { justify-self: center; display: grid; justify-items: center; line-height: 1; gap: 6px; }
+  .brand b { font-size: 20px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+  .brand small { font-size: 10px; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; opacity: .8; }
+
+  .right { justify-self: end; display: flex; align-items: center; gap: 8px; }
+  .phone { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; white-space: nowrap; min-height: 44px; }
+  .phone :global(svg) { width: 16px; height: 16px; }
+
+  .menu { display: none; width: 44px; height: 44px; border: 0; background: none; cursor: pointer; padding: 12px 10px; }
+  .menu span { display: block; height: 2px; background: #fff; transition: transform .25s ease; }
+  .menu span + span { margin-top: 8px; }
+  .menu[aria-expanded="true"] span:first-child { transform: translateY(5px) rotate(45deg); }
+  .menu[aria-expanded="true"] span:last-child { transform: translateY(-5px) rotate(-45deg); }
+
+  @media (max-width: 1100px) {
+    .top-row { grid-template-columns: 1fr auto; padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px)); }
+    .brand { justify-self: start; justify-items: start; grid-row: 1; }
+    .menu { display: block; }
+    .nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0;
+      background: rgba(0, 0, 0, .92); padding: 8px 16px 20px; }
+    .nav a { padding: 14px 0; font-size: 17px; border-bottom: 1px solid rgba(255, 255, 255, .12); }
+    .top:global(.open) .nav { display: flex; }
+  }
+  @media (max-width: 720px) {
+    .phone span { display: none; }
+    .phone { width: 44px; justify-content: center; }
+    .phone :global(svg) { width: 20px; height: 20px; }
+    .brand b { font-size: 16px; letter-spacing: .1em; }
+    .brand small { font-size: 9px; letter-spacing: .2em; }
+  }
 </style>
 
 <script>
-  import { initPathTabs } from "../scripts/path-tabs";
-  initPathTabs();
+  import { initHeader } from "../scripts/header";
+  initHeader();
 </script>

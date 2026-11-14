@@ -20,15 +20,15 @@ const STAGGER_MS = 80;
 </section>
 
 <style>
-  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border-top: 1px solid var(--line-2); }
-  .step { padding: 28px 24px 8px 0; transition-delay: var(--delay); }
-  .step-n { display: block; font: 600 40px/1 var(--display); color: var(--accent); margin-bottom: 20px; }
-  .step h3 { font-size: 17px; }
-  .step p { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 32px; }
+  .step { position: relative; padding-top: 28px; border-top: 2px solid var(--fg); }
+  .step-n { display: block; font-size: 56px; line-height: 1; font-weight: 300; margin-bottom: 18px; color: var(--accent); }
+  .step h3 { font-size: 19px; }
+  .step p { margin: 10px 0 0; font-size: 15px; color: var(--muted); }
   @media (max-width: 960px) {
-    .steps { grid-template-columns: 1fr; border-top: 0; }
-    .step { display: grid; grid-template-columns: 64px 1fr; column-gap: 8px; padding: 22px 0; border-top: 1px solid var(--line); }
-    .step-n { grid-row: span 2; margin: 0; font-size: 36px; }
+    .steps { grid-template-columns: 1fr; gap: 0; }
+    .step { display: grid; grid-template-columns: 72px 1fr; column-gap: 8px; padding: 24px 0; border-top: 1px solid var(--line-2); }
+    .step-n { grid-row: span 2; margin: 0; font-size: 44px; }
     .step p { grid-column: 2; }
   }
 </style>

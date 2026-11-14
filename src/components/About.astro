@@ -1,0 +1,25 @@
+---
+import { contact, fullName, sections } from "../data/site";
+
+const s = sections.about;
+---
+<section class="sec about" id={s.id}>
+  <div class:list={["wrap about-in", { "with-photo": contact.photo }]}>
+    {contact.photo && <img class="portrait reveal" src={contact.photo} alt={fullName} width="480" height="600" loading="lazy" />}
+    <div class="copy reveal">
+      <div class="kicker">{s.eyebrow}</div>
+      <p class="lead">{s.lede}</p>
+      {s.note && <p class="note">{s.note}</p>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-in { max-width: 860px; text-align: center; }
+  .with-photo { max-width: 1100px; display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 64px; align-items: center; text-align: left; }
+  .portrait { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+  .kicker { margin-bottom: 26px; }
+  .lead { margin: 0 0 24px; font-size: clamp(19px, 1.8vw, 24px); line-height: 1.45; font-weight: 600; }
+  .note { margin: 0; color: var(--muted); font-size: 16px; }
+  @media (max-width: 860px) { .with-photo { grid-template-columns: 1fr; gap: 32px; } }
+</style>
