@@ -1,10 +1,7 @@
 {
   "name": "smyk-web",
   "compatibility_date": "2026-11-01",
-  "assets": { "directory": "./dist", "not_found_handling": "404-page" },
-  // Requires the jansmejkalreality.cz zone to be active in Cloudflare (nameservers moved) before `npm run deploy`.
-  "routes": [
-    { "pattern": "jansmejkalreality.cz", "custom_domain": true },
-    { "pattern": "www.jansmejkalreality.cz", "custom_domain": true }
-  ]
+  "assets": { "directory": "./dist", "not_found_handling": "404-page" }
+  // Custom domains (jansmejkalreality.cz + www) go back in as "routes" with "custom_domain": true
+  // once the zone is Active in Cloudflare; until then a deploy with them fails on "zone not found".
 }
